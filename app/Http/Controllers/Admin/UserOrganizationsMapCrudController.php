@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\UserOrganizationsMapRequest;
-use App\Models\Category;
 use App\Models\FsRoles;
 use App\Models\Organizations;
 use App\Models\UserFriendship;
@@ -51,6 +50,57 @@ class UserOrganizationsMapCrudController extends CrudController
     protected function setupListOperation(): void
     {
         $this->crud->setValidation(UserOrganizationsMapRequest::class);
+
+
+        $this->crud->addFilter(
+            [ // select2 filter
+                'name' => 'id',
+                'type' => 'select2',
+                'label'=> 'Organizations',
+                'entity' => 'organizations',
+                'attribute' => 'name',
+                'model' => 'App\Models\Organizations'],
+            function() {
+                return Organizations::select('name','id')->distinct()->get()->pluck('name', 'id')->toArray();
+            },
+            function($value) {
+                $this->crud->addClause('where', 'organization_id', $value);
+            }
+        );
+
+        $this->crud->addFilter(
+                [ // select2 filter
+                    'name' => 'user',
+                    'type' => 'select2',
+                    'label'=> 'User',
+                    'entity' => 'userFriendship',
+                    'attribute' => 'email',
+                    'model' => 'App\Models\Organizations'],
+                function() {
+                    return UserFriendship::select('email','id')->distinct()->get()->pluck('email', 'id')->toArray();
+                },
+                function($value) {
+                    $this->crud->addClause('where', 'user_id', $value);
+                }
+        );
+        $this->crud->addFilter(
+                [ // select2 filter
+                    'name' => 'role',
+                    'type' => 'select2',
+                    'label'=> 'Role',
+                    'entity' => 'role',
+                    'attribute' => 'name',
+                    'model' => 'App\Models\Organizations'],
+                function() {
+                    return FsRoles::select('name','id')->distinct()->get()->pluck('name', 'id')->toArray();
+                },
+                function($value) {
+                    $this->crud->addClause('where', 'role_id', $value);
+                }
+        );
+
+
+
         $this->crud->addColumn([
             'label' => 'Name',
             'name' => 'organizations', // the relationship name in your Model
@@ -86,9 +136,10 @@ class UserOrganizationsMapCrudController extends CrudController
     protected function setupCreateOperation(): void
     {
         $this->crud->setValidation(UserOrganizationsMapRequest::class);
+
         $this->crud->addField([
             'label' => 'Organization',
-            'type' => 'select',
+            'type' => 'select2',
             'placeholder' => "Select Organization",
             'name' => 'organization_id',
             'attribute' => 'name',
@@ -97,7 +148,7 @@ class UserOrganizationsMapCrudController extends CrudController
 
         $this->crud->addField([
             'label' => 'User',
-            'type' => 'select',
+            'type' => 'select2',
             'placeholder' => "Select User",
             'name' => 'user_id',
             'attribute' => 'email',
@@ -106,7 +157,7 @@ class UserOrganizationsMapCrudController extends CrudController
 
         $this->crud->addField([
             'label' => 'Role',
-            'type' => 'select',
+            'type' => 'select2',
             'placeholder' => "Select Role",
             'name' => 'role',
             'attribute' => 'name',

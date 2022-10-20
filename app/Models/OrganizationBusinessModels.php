@@ -2,23 +2,35 @@
 
 namespace App\Models;
 
-
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 
-class Organizations extends Model
+class OrganizationBusinessModels extends Model
 {
     use CrudTrait;
 
     /*
     |--------------------------------------------------------------------------
-    | GLOBAL VAR    IABLES
+    | GLOBAL VARIABLES
     |--------------------------------------------------------------------------
     */
+
+    protected $table = 'operator_business_models';
     protected $connection= 'friendship';
-    protected $table = 'organizations';
-//    protected $guarded = ['id'];
-//    protected $with = ['organizationBusinessModel'];
+    // protected $primaryKey = 'id';
+    // public $timestamps = false;
+    protected $guarded = ['id'];
+    // protected $fillable = [];
+    // protected $hidden = [];
+    // protected $dates = [];
+
+
+    const TYPE = [
+        'free' => 'free',
+        'fixed' => 'fixed',
+        'mixed' => 'mixed',
+        'ppm' => 'ppm',
+    ];
 
     /*
     |--------------------------------------------------------------------------
@@ -31,16 +43,11 @@ class Organizations extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
-    public function user(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function organization()
     {
-        return $this->hasOne('App\Models\UserFriendship','id','user_id');
+        return $this->hasOne(Organizations::class,'id', 'organization_id');
     }
 
-    public function organizationBusiness()
-    {
-        return  $this->hasMany(OrganizationBusinessModels::class,'id', 'organization_id')->where('current', 1);
-
-    }
     /*
     |--------------------------------------------------------------------------
     | SCOPES

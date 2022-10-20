@@ -27,7 +27,7 @@ return [
     // use false to never force localStorage clear. (default)
     // keep in mind: User can clear their localStorage whenever they want.
 
-    'persistentTableDuration' => false,
+    'persistentTableDuration' => true,
 
     // How many items should be shown by default by the Datatable?
     // This value can be overwritten on a specific CRUD by calling

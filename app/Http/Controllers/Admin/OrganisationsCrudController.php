@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\OrganisationsRequest;
+use App\Models\OrganizationBusinessModel;
 use App\Models\Organizations;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -12,6 +13,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use http\Env\Request;
 
 /**
  * Class OrganisationsCrudController
@@ -36,7 +38,7 @@ class OrganisationsCrudController extends CrudController
         CRUD::setModel(Organizations::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/organisations');
         CRUD::setEntityNameStrings('organisations', 'organisations');
-        $this->crud->removeButton('add');
+
     }
 
     /**
@@ -47,6 +49,32 @@ class OrganisationsCrudController extends CrudController
      */
     protected function setupListOperation(): void
     {
+        $this->crud->removeButton('create','top');
+        $this->crud->removeButton('delete');
+
+        $this->crud->addFilter([ // select2 filter
+            'name' => 'id',
+            'type' => 'select2',
+            'label'=> 'Organizations',
+        ],
+            function() {
+                return Organizations::select('name','id')->distinct()->get()->pluck('name', 'id')->toArray();
+            },
+            function($value) {
+                $this->crud->addClause('where', 'id', $value);
+            });
+
+//        $this->crud->addFilter([ // select2 filter
+//            'name' => 'id',
+//            'type' => 'select2',
+//            'label'=> 'Organizations',
+//        ],
+//            function() {
+//                return Organizations::select('name','id')->distinct()->get()->pluck('name', 'id')->toArray();
+//            },
+//            function($value) {
+//                $this->crud->addClause('where', 'id', $value);
+//            });
 
         $this->crud->setColumns([
             'client_id',
@@ -60,7 +88,7 @@ class OrganisationsCrudController extends CrudController
             'bme_status'
         ]);
 
-        $this->crud->removeButton('delete');
+
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
@@ -107,7 +135,7 @@ class OrganisationsCrudController extends CrudController
         $this->crud->addField([
             'label' => 'ClientId',
             'type' => 'text',
-                'attributes' => [
+            'attributes' => [
                 'placeholder' => 'Some text when empty',
                 'class' => 'form-control some-class',
                 'readonly'  => 'readonly',
@@ -116,6 +144,7 @@ class OrganisationsCrudController extends CrudController
             'name' => 'name', // the relationship name in your Model
             'attribute' => 'name', // attribute on Article that is shown to admin
         ]);
+
         $this->crud->addField([
             'label' => 'active',
             'type' => 'text',
@@ -128,6 +157,7 @@ class OrganisationsCrudController extends CrudController
             'name' => 'active', // the relationship name in your Model
             'attribute' => 'active', // attribute on Article that is shown to admin
         ]);
+
         $this->crud->addField([
             'label' => 'created_at',
             'type' => 'text',
@@ -200,6 +230,7 @@ class OrganisationsCrudController extends CrudController
             'attribute' => 'is_test',
             'options' => ['1' => 'Yes', '0' => 'No']
         ]);
+
         $this->crud->addField([
             'label' => 'BME Status',
             'type'    => 'select_from_array',

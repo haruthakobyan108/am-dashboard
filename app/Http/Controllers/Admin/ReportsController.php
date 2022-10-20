@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Illuminate\Routing\Controller;
 
 /**
  * Class ReportsController
  * @package App\Http\Controllers\Admin
- * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
+ * @property-read CrudPanel $crud
  */
 class ReportsController extends Controller
 {

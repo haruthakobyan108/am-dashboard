@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\UserOrganizationsMapCrudController;
+use App\Http\Controllers\Admin\OrganizationBuisnessModelCrudController;
 use Illuminate\Support\Facades\Route;
 
 // --------------------------
@@ -23,4 +24,5 @@ Route::group([
     Route::crud('user-organizations-map', 'UserOrganizationsMapCrudController');
     Route::crud('fs-roles', 'FsRolesCrudController');
     Route::get('reports', 'ReportsController@index')->name('page.reports.index');
+    Route::crud('organization-buisness-model', 'OrganizationBuisnessModelCrudController');
 }); // this should be the absolute last line of this file
