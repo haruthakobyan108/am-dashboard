@@ -5,18 +5,23 @@ namespace App\Rules;
 use App\Models\UserFriendship;
 use App\Models\UserOrganizationsMap;
 use Illuminate\Contracts\Validation\Rule;
+use JetBrains\PhpStorm\NoReturn;
 
 class UserOrganization implements Rule
 {
     private int|null $role;
+    private int|null $organization_id;
+    private int|null $user_id;
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct(int|null $role)
+    public function __construct(int|null $role, int|null $organizationId, int|null $userId)
     {
         $this->role = $role;
+        $this->organization_id = $organizationId;
+        $this->user_id = $userId;
     }
 
     /**
@@ -26,10 +31,10 @@ class UserOrganization implements Rule
      * @param  mixed  $value
      * @return bool
      */
-    public function passes($attribute, $value): bool
+    #[NoReturn] public function passes($attribute, $value): bool
     {
         return !UserOrganizationsMap::query()
-            ->whereRaw('role_id = ? and user_id = ?', [$this->role,$value])
+            ->whereRaw('role_id = ? and organization_id = ? and user_id = ?', [$this->role,$this->organization_id, $this->user_id])
             ->exists();
     }
 

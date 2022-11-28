@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\OrganisationsRequest;
-use App\Models\OrganizationBusinessModel;
+
 use App\Models\Organizations;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -13,7 +12,6 @@ use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use http\Env\Request;
 
 /**
  * Class OrganisationsCrudController
@@ -63,18 +61,6 @@ class OrganisationsCrudController extends CrudController
             function($value) {
                 $this->crud->addClause('where', 'id', $value);
             });
-
-//        $this->crud->addFilter([ // select2 filter
-//            'name' => 'id',
-//            'type' => 'select2',
-//            'label'=> 'Organizations',
-//        ],
-//            function() {
-//                return Organizations::select('name','id')->distinct()->get()->pluck('name', 'id')->toArray();
-//            },
-//            function($value) {
-//                $this->crud->addClause('where', 'id', $value);
-//            });
 
         $this->crud->setColumns([
             'client_id',

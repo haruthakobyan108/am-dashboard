@@ -23,6 +23,7 @@ Route::group([
     Route::crud('organisations', 'OrganisationsCrudController');
     Route::crud('user-organizations-map', 'UserOrganizationsMapCrudController');
     Route::crud('fs-roles', 'FsRolesCrudController');
-    Route::get('reports', 'ReportsController@index')->name('page.reports.index');
+    Route::crud('reports', 'ReportsController');
+    Route::crud('events', 'EventControllerCrudController');
     Route::crud('organization-buisness-model', 'OrganizationBuisnessModelCrudController');
 }); // this should be the absolute last line of this file

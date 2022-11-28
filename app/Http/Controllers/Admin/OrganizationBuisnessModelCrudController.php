@@ -64,6 +64,18 @@ class OrganizationBuisnessModelCrudController extends CrudController
                 $this->crud->addClause('where', 'organization_id', $value);
             });
 
+        $this->crud->addFilter([ // select2 filter
+            'name' => 'id',
+            'type' => 'select2',
+            'label'=> 'BM',
+        ],
+            function() {
+                return OrganizationBusinessModels::TYPE;
+            },
+            function($value) {
+                $this->crud->addClause('where', 'business_model', $value);
+            });
+
         $this->crud->addColumn([
                 'label' => 'ID',
                 'name' => 'id',

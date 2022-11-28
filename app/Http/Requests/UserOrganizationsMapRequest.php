@@ -5,6 +5,11 @@ namespace App\Http\Requests;
 use App\Rules\UserOrganization;
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @property mixed $role
+ * @property mixed $organization_id
+ * @property mixed $user_id
+ */
 class UserOrganizationsMapRequest extends FormRequest
 {
     /**
@@ -26,7 +31,7 @@ class UserOrganizationsMapRequest extends FormRequest
     public function rules()
     {
         return [
-             'user_id' => ['required', new UserOrganization($this->role)],
+             'user_id' => ['required', new UserOrganization($this->role,$this->organization_id, $this->user_id)],
              'role' => 'required'
         ];
     }
