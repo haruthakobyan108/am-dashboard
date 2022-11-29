@@ -16,7 +16,7 @@ class ReportController extends Controller
      * @param ReportRequest $request
      * @return AnonymousResourceCollection|EmptyResource
      */
-    #[NoReturn] public function getStreamerReport(ReportRequest $request): ReportResource|EmptyResource
+    #[NoReturn] public function getStreamerReport(ReportRequest $request): AnonymousResourceCollection|EmptyResource
     {
         $diff = Carbon::parse($request->input('from'))->diffInDays( $request->input('to'));
         if($diff > 31 ){
