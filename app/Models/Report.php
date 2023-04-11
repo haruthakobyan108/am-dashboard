@@ -33,15 +33,20 @@ class Report extends Model
                 e.start_date   as `date`,
                 e.match_status as `status`,
                 u.first_name   as `streamer_name`,
-                u.last_name    as `streamer_lastname`
+                u.last_name    as `streamer_lastname`,
+                e.team_1_name  as `team_1_name`,
+                e.team_2_name  as `team_2_name`,
+                o.name         as `provider`
             from product_event_maps
                 join events e on product_event_maps.event_id = e.id
                 join sports s on e.sport_id = s.id
                 join leagues l on e.league_id = l.id and s.id = l.sport_id
                 join users u on product_event_maps.content_providing_user_id = u.id
                 join regions r on e.region_id = r.id
+                join organizations o on o.id = product_event_maps.organization_id
             where date(e.start_date) BETWEEN '".$from."' and '".$to."' and
-            product_event_maps.organization_id = 10 and
+                  product_event_maps.organization_id = 1432
+                    or product_event_maps.organization_id = 10 and
             (
                 product_event_maps.match_status = 3 or
                 product_event_maps.match_status = 2

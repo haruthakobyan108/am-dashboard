@@ -13,9 +13,13 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property int $streamer_name
  * @property string $streamer_lastname
  * @property string $sport_name
+ * @property string $team_1_name
+ * @property string $team_2_name
+ * @property string $provider
  */
 class ReportResource extends JsonResource
 {
+
 
     final public function toArray($request): array
     {
@@ -28,6 +32,9 @@ class ReportResource extends JsonResource
             'status' => $this->status,
             'streamer_name' => $this->streamer_name,
             'streamer_lastname' => $this->streamer_lastname,
+            'team_1_name' => $this->team_1_name,
+            'team_2_name' => $this->team_1_name,
+            'provider' => $this->provider
         ];
     }
 
