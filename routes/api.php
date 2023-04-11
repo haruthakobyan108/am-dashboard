@@ -17,9 +17,5 @@ use App\Services\EncryptionService;
 |
 */
 Route::group(['middleware' => ['apiAuth:api']], function() {
-//    Route::post('/auth/login', [AuthController::class, 'auth']);
     Route::get('/getStreamerReport', [ReportController::class, 'getStreamerReport']);
-//    Route::get('/keyGenerate', function(){
-//        return  EncryptionService::decrypt('hvNiQcANaQChVVLFnNBbPcSq8yj+YLyg8Uh+g18lpEhcG9CDANGjwsDQ/wpjeRnIHugTDiRSv0oDw5q9g8ikDA==');
-//    });
 });

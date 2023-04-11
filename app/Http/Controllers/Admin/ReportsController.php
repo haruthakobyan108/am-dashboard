@@ -82,4 +82,9 @@ class ReportsController extends CrudController
                     ]
             ];
     }
+//
+//    public function setupListOperation()
+//    {
+//        $this->crud();
+//    }
 }
